@@ -1,0 +1,23 @@
+﻿@page "/"
+@using WordGuesserApp.Extensions
+@using WordGuesserApp.Providers
+@inject OpenAIProvider AiProvider
+<h1>@currentWord</h1>
+
+<button @onclick="NextWord">Changer de mot</button>
+
+@code {
+    private string currentWord = "Démarrage...";
+    
+    private async Task NextWord()
+    {
+      currentWord = await AiProvider.GetRandomWordAsync("Nature");
+    }
+
+    private MotionDetector motionDetector = new MotionDetector();
+
+    protected override void OnInitialized()
+    {
+      motionDetector.OnTiltUp += async () => await NextWord();
+    }
+}
