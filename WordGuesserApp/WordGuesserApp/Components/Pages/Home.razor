@@ -1,7 +1,7 @@
 ﻿@page "/"
 @using WordGuesserApp.Extensions
 @using WordGuesserApp.Providers
-@inject OpenAIProvider AiProvider
+@inject IAiProvider AiProvider
 <h1>@currentWord</h1>
 
 <button @onclick="NextWord">Changer de mot</button>

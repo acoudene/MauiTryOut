@@ -1,17 +1,19 @@
-﻿using System.Net.Http.Json;
+﻿using OpenAI.Chat;
 
 namespace WordGuesserApp.Providers;
 
-public class OpenAIProvider
+public class OpenAiProvider : IAiProvider
 {
-  private readonly HttpClient _httpClient = new HttpClient();
-
   public async Task<string> GetRandomWordAsync(string theme)
   {
-    var requestBody = new { prompt = $"Donne-moi un mot aléatoire sur le thème : {theme}", max_tokens = 10 };
-    var response = await _httpClient.PostAsJsonAsync("https://api.openai.com/v1/completions", requestBody);
-    var result = await response.Content.ReadAsStringAsync();
-    return result; // Traitement à adapter selon la réponse JSON
+    string? apiKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY");   
+    string prompt = $"Donne-moi un mot aléatoire sur le thème : {theme}";
+    string model = "gpt-3.5-turbo";
+
+    ChatClient client = new(model: model, apiKey: apiKey);
+    ChatCompletion completion = await client.CompleteChatAsync(prompt);
+
+    return completion.Content.ToString() ?? string.Empty;
   }
 }
 

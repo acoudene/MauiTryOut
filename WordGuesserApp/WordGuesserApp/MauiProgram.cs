@@ -17,7 +17,7 @@ namespace WordGuesserApp
 
       builder.Services.AddMauiBlazorWebView();
       builder.Services.AddHttpClient();
-      builder.Services.AddSingleton<OpenAIProvider>();
+      builder.Services.AddSingleton<IAiProvider, OpenAiProvider>();
 
 #if DEBUG
       builder.Services.AddBlazorWebViewDeveloperTools();
